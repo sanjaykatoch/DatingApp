@@ -23,6 +23,14 @@ namespace API.Controllers
             var users= await _context.Users.ToListAsync();
             return users;
         }
+        // [HttpGet]
+        // public async Task<ActionResult<List<Appuser>>> GetAllUsers()
+        // {
+        //     List<Appuser> _appUsers=new List<Appuser>();
+        //    // _appUsers=_context.Users.ToListAsync();
+        //     return _appUsers;
+        // }
+        
         //api/user/3
         [HttpGet("id")]
         public async Task<ActionResult<Appuser>> GetUser(int id)

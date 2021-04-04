@@ -1,0 +1,71 @@
+
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr/';
+
+@Component({
+  selector: 'app-test-errors',
+  templateUrl: './test-errors.component.html',
+  styleUrls: ['./test-errors.component.css']
+})
+
+export class TestErrorsComponent implements OnInit {
+baseUrl="https://localhost:5001/api/";
+ValidationErrors: string[] = [];
+  constructor(private http:HttpClient,public toastr:ToastrService) { }
+
+  ngOnInit(): void {
+  }
+get404Error(){
+  this.http.get(this.baseUrl+'buggy/bad-request').subscribe(
+    response=>{
+      console.log(response);
+    },
+    error=>{
+      console.log(error);
+    }
+  )
+}
+get500Error(){
+  this.http.get(this.baseUrl+'buggy/server-error').subscribe(
+    response=>{
+      console.log(response);
+    },
+    error=>{
+      console.log(error);
+    }
+  )
+}
+get401Error(){
+  this.http.get(this.baseUrl+'buggy/auth').subscribe(
+    response=>{
+      console.log(response);
+    },
+    error=>{
+      console.log(error);
+    }
+  )
+}
+get400Error(){
+  this.http.get(this.baseUrl+'buggy/not-found',{}).subscribe(
+    response=>{
+      console.log(response);
+    },
+    error=>{
+      this.toastr.error(error.statusText === "OK" ? "Unauthorised" : error.statusText, error.status);
+      console.log(error);
+    }
+  )
+}
+get404ValidationError(){
+  this.http.post(this.baseUrl+'account/register',{}).subscribe(
+    response=>{
+      console.log(response);
+    },
+    error=>{
+      console.log(error);
+      this.ValidationErrors=error;
+    }
+  )
+}
+}

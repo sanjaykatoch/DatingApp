@@ -32,6 +32,16 @@ registerMode=false;
       console.log(error);
     })
   }
+  get404Error(){
+    this.http.get('https://localhost:5001/api/buggy/not-found').subscribe(
+      response=>{
+        console.log(response);
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+  }
 registerToggle(){
   this.registerMode  =!this.registerMode;
 }

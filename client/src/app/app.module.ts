@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser'
 import {FormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,10 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './modules/shared.module';
+import { TesterrorsComponent } from './errors/testerrors/testerrors.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { SharedModule } from './modules/shared.module';
     MemberListComponent,
     MemberDetailComponent,
     ListsComponent,
-    MessagesComponent
+    MessagesComponent,
+    TesterrorsComponent,
+    NotFoundComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,11 @@ import { SharedModule } from './modules/shared.module';
     //   positionClass: 'toast-bottom-right',
     // })
   ],
-  providers: [BsDropdownConfig],
+  providers: [
+    BsDropdownConfig,
+    {
+    provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

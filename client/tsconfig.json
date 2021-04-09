@@ -13,6 +13,7 @@
     "target": "es2015",
     "module": "es2020",
     "lib": [
+      "es2019", // this add for handle throw error like onlu usefule message to display
       "es2018",
       "dom"
     ]

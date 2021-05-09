@@ -23,8 +23,10 @@ baseUrl=environment.apiUrl; //this is URl is get from environment
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          debugger;
+          this.setCuurentUser(user);
+          // localStorage.setItem('user', JSON.stringify(user));
+          // this.currentUserSource.next(user);
         }
       })
     )
@@ -34,8 +36,8 @@ baseUrl=environment.apiUrl; //this is URl is get from environment
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCuurentUser(user);
+        //  this.currentUserSource.next(user);
         }
 return "User is created";
       })
@@ -43,6 +45,7 @@ return "User is created";
   }
   setCuurentUser(user:User)
   {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
   logout() {

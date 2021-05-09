@@ -4,7 +4,6 @@ import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { environment } from 'src/environments/environment';
-import { threadId } from 'worker_threads';
 import { Member } from '../Model/member';
 
 
@@ -32,18 +31,34 @@ export class MembersService {
       })
     )
   }
-  getMember(username: string) {
+  getMember = (username: string)=> {
     const member = this.members.find(x => x.userName === username);
     if (member !== undefined) return of(member);
-    return this.http.get<Member>(this.baseUrl + 'users/' + username).pipe(
-      map(() => {
-        const index = this.members.indexOf(member);
-        this.members[index] = member;
-      })
-    )
+    return this.http.get<any>(this.baseUrl + 'users/' + username)
+      .pipe(
+        map((result) => {
+          const index = this.members.indexOf(result);
+          if(index!=-1){
+            this.members[index] = result;
+            return this.members[index];
+          }else{
+            return result;
+          }
+          
+        })
+      )
+
   }
   updateMembers(member: Member) {
     return this.http.put(this.baseUrl + 'users', member);
+
+  }
+  SetMainPhoto(photoId:number){
+    return this.http.put(this.baseUrl+'users/set-main-photo/' + photoId,{});
+
+  }
+  deletePhoto(photoId:number){
+    return this.http.delete(this.baseUrl+'users/delete-photo/' + photoId);
 
   }
 }

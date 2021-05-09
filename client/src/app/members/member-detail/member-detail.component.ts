@@ -51,5 +51,5 @@ galleryOptions: NgxGalleryOptions[];
       this.member=member;
       this.galleryImages=this.getImages();
     })
-  }
+  } 
 }

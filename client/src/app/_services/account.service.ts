@@ -25,8 +25,7 @@ baseUrl=environment.apiUrl; //this is URl is get from environment
         if (user) {
           debugger;
           this.setCuurentUser(user);
-          // localStorage.setItem('user', JSON.stringify(user));
-          // this.currentUserSource.next(user);
+     
         }
       })
     )

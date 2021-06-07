@@ -18,14 +18,12 @@ baseUrl=environment.apiUrl; //this is URl is get from environment
   currentUser$=this.currentUserSource.asObservable();
 
   login(model: any) {
-    debugger;
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
+        debugger;
         const user = response;
         if (user) {
-          debugger;
           this.setCuurentUser(user);
-     
         }
       })
     )
@@ -36,16 +34,20 @@ baseUrl=environment.apiUrl; //this is URl is get from environment
         const user = response;
         if (user) {
           this.setCuurentUser(user);
-        //  this.currentUserSource.next(user);
+          //  this.currentUserSource.next(user);
         }
-return "User is created";
+        return "User is created";
       })
     )
   }
-  setCuurentUser(user:User)
-  {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSource.next(user);
+  setCuurentUser(user: User) {
+    if (user != null) {
+      localStorage.setItem('user', JSON.stringify(user));
+      this.currentUserSource.next(user);
+    } else {
+      localStorage.removeItem('user');
+      this.currentUserSource.next(null);
+    }
   }
   logout() {
     localStorage.removeItem('user');

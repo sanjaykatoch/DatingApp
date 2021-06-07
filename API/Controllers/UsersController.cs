@@ -6,6 +6,7 @@ using API.Data;
 using API.DTOs;
 using API.Entites;
 using API.Extensions;
+using API.Helper;
 using API.Interface;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -33,14 +34,24 @@ namespace API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<List<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
-            // var users = await _context.Users.ToListAsync();
-            // return users;
-            // var users = await _userRepository.GetUsersAsync();
-            // var userToReturn=_mapper.Map<IEnumerable<MemberDto>>(users);
-            // return Ok(userToReturn);
-            var users = await _userRepository.GetMembersAsync();
+            var user=await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            if (user != null)
+            {
+                userParams.CurrentUsername = user.UserName;
+                if (string.IsNullOrEmpty(userParams.Gender))
+                {
+                    userParams.Gender = user.Gender == "male" ? "female" : "male";
+                }
+            }
+
+            
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+            Response.AddPaginationHeader(users.CuurentPage,users.PageSize,
+            users.TotalCount,users.TotalPages);
+
             return Ok(users);
         }
 
@@ -77,14 +88,14 @@ namespace API.Controllers
         {
             // var username=User.GetUsername();
 
-            var user=await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            _mapper.Map(member,user);
+            _mapper.Map(member, user);
 
             _userRepository.Upate(user);
 
-            if(await _userRepository.SaveAsyncAll()) return NoContent();
-        return BadRequest("Fail To Update");
+            if (await _userRepository.SaveAsyncAll()) return NoContent();
+            return BadRequest("Fail To Update");
 
         }
 

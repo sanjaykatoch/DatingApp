@@ -28,7 +28,7 @@
       <div class="dropdown navbar-right" style="margin-left:250px" *ngIf="(account.currentUser$ | async) as user" dropdown>
         <img class="navUserImage" src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.userName}}">
         <a  class="dropdown-toggle text-light ml-3" dropdownToggle aria-controls="dropdown-basic">
-              Welcome {{user.userName}}
+              Welcome {{user.knowanAs}}
            <span class="caret"></span>
                     </a>
         

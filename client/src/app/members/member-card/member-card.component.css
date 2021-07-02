@@ -5,6 +5,14 @@
     opacity: 0.7;
 }
 
+.card {
+    border-radius: 1.25rem;
+}
+
+.card-mainDiv{
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
 .card img{
     transform: scale(1.0,1.0);
     transition-duration: 500ms;
@@ -35,3 +43,8 @@ opacity:1;
     transition:all 0.3s ease-in-out;
 }
 
+
+.card-img, .card-img-top {
+    border-top-left-radius: calc(1.25rem - 1px);
+    border-top-right-radius: calc(1.25rem - 1px);
+}

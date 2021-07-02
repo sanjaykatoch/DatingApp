@@ -19,6 +19,8 @@ namespace API.Extensions
             services.AddScoped<IUserRepository,UserRespository>();
             services.AddScoped<LogUserActivity>(); //add the user login active record
 
+            services.AddScoped<ILikeRepository,LikeRepository>(); // For Like Respository
+
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);//used to declare the auto mapper
 
             services.AddDbContext<DataContext>(options =>

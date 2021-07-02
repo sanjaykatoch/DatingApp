@@ -15,24 +15,26 @@ registerMode=false;
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    this.getUser();
+   this.getUser();
     //this.registerMode=false;
   }
   getUser() {
+    debugger;
     this.http.get("https://localhost:5001/api/users").subscribe(Response => {
       this.users = Response;
     }, error => {
       console.log(error);
     })
   }
-  getUserAgain() {
-    this.http.get("https:localhost:50001/users").subscribe(Response => {
-      this.users = Response;
-    }, error => {
-      console.log(error);
-    })
-  }
+  // getUserAgain() {
+  //   this.http.get("https:localhost:50001/users").subscribe(Response => {
+  //     this.users = Response;
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  // }
 registerToggle(){
+  debugger;
   this.registerMode  =!this.registerMode;
 }
 cancelRegisterMode(event:boolean){

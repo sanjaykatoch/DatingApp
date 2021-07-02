@@ -13,7 +13,7 @@ export class AccountService {
 baseUrl=environment.apiUrl; //this is URl is get from environment
 
   constructor(private http:HttpClient) { }
-
+debugger;
   private currentUserSource=new ReplaySubject<User>(1);
   currentUser$=this.currentUserSource.asObservable();
 

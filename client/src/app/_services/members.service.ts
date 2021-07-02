@@ -61,13 +61,25 @@ userParams:UserParams;
     params = params.append('orderBy', userParmas.orderBy.toString());
     // if (this.members.length > 0) return of(this.members);
     
-    return this.getPaginatedResult<Member[]>(this.baseUrl,params)
+    return this.getPaginatedResult<Member[]>(this.baseUrl+'users',params)
     .pipe(map(response=>{
       this.memberCache.set(Object.values(userParmas).join('-'),response);
      return response;
     }))
   }
- 
+  addLike(userName: string) {
+    return this.http.post(this.baseUrl+'likes/'+userName,{});
+
+    // return this.http.post(this.baseUrl + 'likes/', { userName: userName });
+  }
+  getLikes(predicates: string,pageNumber,pageSize) {
+    let params=this.getPaginationHeaders(pageNumber,pageSize);
+    params=params.append('predicate',predicates);//append the predicates
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl+'likes',params);
+  //  return this.http.get<Partial<Member[]>>(this.baseUrl + 'likes?predicate=' + predicates);
+
+    // return this.http.get(this.baseUrl+'likes',{predicates});
+  }
   getMember = (username: string)=> {
     // const member = this.members.find(x => x.userName === username);
     // if (member !== undefined) return of(member);
@@ -109,7 +121,7 @@ userParams:UserParams;
   private getPaginatedResult<T>(url,params){
     const paginatedResult:PaginatedResult<T>=new PaginatedResult<T>();
  
-     return this.http.get<T>(url+ 'users', { observe: 'response', params }).pipe(
+     return this.http.get<T>(url, { observe: 'response', params }).pipe(
        map(response => {
          paginatedResult.result = response.body;
          if (response.headers.get('Pagination') !== null) {
